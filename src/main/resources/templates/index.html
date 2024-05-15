@@ -18,8 +18,28 @@
 
 
         <ul>
-            <li><a th:href="@{/items}">Все правонарушения</a></li>
+            <li><a th:href="@{/accidents}">Все правонарушения</a></li>
         </ul>
+        <table class="table">
+            <thead>
+            <tr>
+                <th class="col-3 text-center">#</th>
+                <th class="col-3 text-center">Заголовок</th>
+                <th class="col-3 text-center">Содержание</th>
+                <th class="col-3 text-center">Адрес</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="accident: ${accidents}">
+                <td class="text-center"><span th:text="${accident.id}"></span></td>
+                <td class="text-center"><span th:text="${accident.name}"></span></td>
+                <td class="text-center"><span th:text="${accident.text}"></span></td>
+                <td class="text-center"><span th:text="${accident.address}"></span>
+
+            </tr>
+            </tbody>
+        </table>
+
     </div>
     <footer th:insert="blocks/footer :: footer"></footer>
 </div>

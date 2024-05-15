@@ -1,17 +1,26 @@
 package ru.job4j.accidents.service;
 
 import org.springframework.stereotype.Service;
+import ru.job4j.accidents.dto.AccidentReadDto;
+import ru.job4j.accidents.mapper.AccidentReadMapper;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.repositry.AccidentMem;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static ru.job4j.accidents.util.AccidentGenerator.generateAccidents;
 
 @Service
 public class AccidentService {
     private final AccidentMem accidentMem;
+    private final AccidentReadMapper accidentReadMapper;
 
-    public AccidentService(AccidentMem accidentMem) {
+    public AccidentService(AccidentMem accidentMem, AccidentReadMapper accidentReadMapper) {
         this.accidentMem = accidentMem;
+
+        this.accidentReadMapper = accidentReadMapper;
     }
 
     public Accident addAccident(Accident accident) {
@@ -19,15 +28,16 @@ public class AccidentService {
     }
 
     public List<Accident> findAll() {
+        generateAccidents().forEach(accidentMem::addAccident);
         return accidentMem.findAll();
     }
 
-    public List<Accident> findByName(String key) {
-        return accidentMem.findByName(key);
+    public Optional<List<AccidentReadDto>> findByName(String key) {
+        return Optional.of(accidentMem.findByName(key).stream().map(accidentReadMapper::mapFrom).collect(Collectors.toList()));
     }
 
-    public Accident findById(int id) {
-        return accidentMem.findById(id);
+    public Optional<AccidentReadDto> findById(int id) {
+        return Optional.of(accidentReadMapper.mapFrom(accidentMem.findById(id)));
     }
 
     public boolean replace(int id, Accident accident) {
@@ -37,5 +47,4 @@ public class AccidentService {
     public boolean delete(int id) {
         return accidentMem.delete(id);
     }
-
 }
