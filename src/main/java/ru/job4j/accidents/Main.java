@@ -14,6 +14,5 @@ public class Main {
         context.register(AccidentService.class);
         context.register(IndexController.class);
         context.refresh();
-        var indexCD = context.getBean(IndexController.class);
     }
 }
