@@ -26,6 +26,7 @@
                 <th class="col-3 text-center">Заголовок</th>
                 <th class="col-3 text-center">Содержание</th>
                 <th class="col-3 text-center">Адрес</th>
+                <th class="col-3 text-center">Тип</th>
             </tr>
             </thead>
             <tbody>
@@ -38,6 +39,8 @@
                 </td>
                 <td class="text-center"><span th:text="${accident.text}"></span></td>
                 <td class="text-center"><span th:text="${accident.address}"></span>
+                <td class="text-center"><span th:text="${accident.type.name}"></span>
+
             </tr>
             </tbody>
         </table>
