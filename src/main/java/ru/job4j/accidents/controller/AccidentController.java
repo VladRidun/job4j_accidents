@@ -25,6 +25,7 @@ public class AccidentController {
         accidentService.add(accident);
         return "redirect:/index";
     }
+
     @PostMapping("/create")
     public String create(@ModelAttribute Accident accident) {
         accidentService.add(accident);
@@ -42,7 +43,7 @@ public class AccidentController {
 
     @PostMapping("/edit")
     public String update(@ModelAttribute Accident accident) {
-       accidentService.update(accident);
+        accidentService.update(accident);
         return "redirect:/index";
     }
 }
