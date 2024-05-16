@@ -23,12 +23,12 @@ public class AccidentService {
         this.accidentReadMapper = accidentReadMapper;
     }
 
-    public Accident addAccident(Accident accident) {
-        return memoryAccidentRepository.addAccident(accident);
+    public Accident add(Accident accident) {
+        return memoryAccidentRepository.add(accident);
     }
 
     public List<Accident> findAll() {
-        generateAccidents().forEach(memoryAccidentRepository::addAccident);
+        generateAccidents().forEach(memoryAccidentRepository::add);
         return memoryAccidentRepository.findAll().stream().toList();
     }
 

@@ -5,7 +5,7 @@ import ru.job4j.accidents.model.Accident;
 import java.util.Collection;
 
 public interface AccidentRepository {
-    public Accident addAccident(Accident accident);
+    public Accident add(Accident accident);
 
     public Collection<Accident> findAll();
 

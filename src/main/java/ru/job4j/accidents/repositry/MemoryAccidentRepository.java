@@ -16,7 +16,7 @@ public class MemoryAccidentRepository implements AccidentRepository {
     private final ConcurrentHashMap<Integer, Accident> accidents = new ConcurrentHashMap<Integer, Accident>();
 
     @Override
-    public Accident addAccident(Accident accident) {
+    public Accident add(Accident accident) {
         accident.setId(accidentId.getAndIncrement());
         accidents.putIfAbsent(accident.getId(), accident);
         return accident;
