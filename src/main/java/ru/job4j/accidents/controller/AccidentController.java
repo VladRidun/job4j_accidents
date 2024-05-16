@@ -16,19 +16,21 @@ import java.util.List;
 @AllArgsConstructor
 public class AccidentController {
     private final AccidentService accidentService;
+    private final List<AccidentType> types = List.of(
+            new AccidentType(1, "Две машины"),
+            new AccidentType(2, "Машина и человек"),
+            new AccidentType(3, "Машина и велосипед"));
 
     @GetMapping("/createAccident")
     public String viewCreateAccident(Model model) {
-        List<AccidentType> types = new ArrayList<>();
-        types.add(new AccidentType(1, "Две машины"));
-        types.add(new AccidentType(2, "Машина и человек"));
-        types.add(new AccidentType(3, "Машина и велосипед"));
         model.addAttribute("types", types);
         return "createAccident";
     }
 
     @PostMapping("/saveAccident")
-    public String save(@ModelAttribute Accident accident) {
+    public String save(@ModelAttribute Accident accident, Model model) {
+        AccidentType accidentType = types.get(accident.getType().getId());
+        accident.setType(accidentType);
         accidentService.add(accident);
         return "redirect:/";
     }
