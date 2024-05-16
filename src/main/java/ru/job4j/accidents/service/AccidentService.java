@@ -28,7 +28,6 @@ public class AccidentService {
     }
 
     public List<Accident> findAll() {
-        generateAccidents().forEach(memoryAccidentRepository::add);
         return memoryAccidentRepository.findAll().stream().toList();
     }
 

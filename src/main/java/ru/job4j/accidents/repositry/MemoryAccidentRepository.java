@@ -3,17 +3,22 @@ package ru.job4j.accidents.repositry;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
 
-import java.util.ArrayList;
+
 import java.util.Collection;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+
+import static ru.job4j.accidents.util.AccidentGenerator.generateAccidents;
 
 @Repository
 public class MemoryAccidentRepository implements AccidentRepository {
     private final AtomicInteger accidentId = new AtomicInteger(1);
     private final ConcurrentHashMap<Integer, Accident> accidents = new ConcurrentHashMap<Integer, Accident>();
+
+    private MemoryAccidentRepository() {
+        generateAccidents().forEach(this::add);
+    }
 
     @Override
     public Accident add(Accident accident) {

@@ -4,7 +4,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link th:href = "@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <script th:src="@{/js/code.jquery.com_jquery-3.7.0.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
 
@@ -13,9 +13,8 @@
 <body>
 
 <div class="container-fluid p-0">
-    <header th:insert="blocks/header :: header"></header>
+    <header th:insert="~{blocks/header :: header}"></header>
     <div class="container mt-2">
-
 
         <ul>
             <li><a th:href="@{/accidents}">Все правонарушения</a></li>
@@ -32,16 +31,18 @@
             <tbody>
             <tr th:each="accident: ${accidents}">
                 <td class="text-center"><span th:text="${accident.id}"></span></td>
-                <td class="text-center"><span th:text="${accident.name}"></span></td>
+                <td>
+                    <a th:href="@{|/updateAccident?id=${accident.id}|}">
+                        <span th:text="${accident.name}"></span>
+                    </a>
+                </td>
                 <td class="text-center"><span th:text="${accident.text}"></span></td>
                 <td class="text-center"><span th:text="${accident.address}"></span>
-
             </tr>
             </tbody>
         </table>
-
     </div>
-    <footer th:insert="blocks/footer :: footer"></footer>
+     <footer th:insert="~{blocks/footer :: footer}"></footer>
 </div>
 </body>
 </html>

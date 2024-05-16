@@ -10,38 +10,27 @@ import ru.job4j.accidents.service.AccidentService;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("/accidents")
 public class AccidentController {
     private final AccidentService accidentService;
 
-    @GetMapping("/create")
+    @GetMapping("/createAccident")
     public String viewCreateAccident() {
-
-        return "create";
+        return "createAccident";
     }
 
-    @GetMapping
+    @PostMapping("/saveAccident")
     public String save(@ModelAttribute Accident accident) {
         accidentService.add(accident);
-        return "redirect:/index";
+        return "redirect:/";
     }
 
-    @PostMapping("/create")
-    public String create(@ModelAttribute Accident accident) {
-        accidentService.add(accident);
-        return "redirect:/index";
+    @GetMapping("/updateAccident")
+    public String update(@RequestParam("id") int id, Model model) {
+        model.addAttribute("accident", accidentService.findById(id).get());
+        return "/updateAccident";
     }
 
-    @GetMapping("/edit/{id}")
-    public String getEditPage(@PathVariable int id, Model model) {
-        var accidentOptional = accidentService.findById(id);
-        if (accidentOptional.isEmpty()) {
-            model.addAttribute("message", "Объявление не найдено");
-        }
-        return "edit";
-    }
-
-    @PostMapping("/edit")
+    @PostMapping("/updateAccident")
     public String update(@ModelAttribute Accident accident) {
         accidentService.update(accident);
         return "redirect:/index";

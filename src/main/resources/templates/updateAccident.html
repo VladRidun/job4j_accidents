@@ -8,7 +8,7 @@
     <script th:src="@{/js/code.jquery.com_jquery-3.7.0.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
 
-    <title>Добавить нарушение</title>
+    <title>Редактировать нарушение</title>
 </head>
 <body>
 
@@ -17,16 +17,20 @@
     <div class="row pt-3">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Новый инцидент
+                Редактирование инцидента
             </div>
             <div class="card-body">
-                <form th:action="@{/create}" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="id" value="0"/>
+                <form th:action="@{/updateAccident}" method="POST" th:object="${accident}">
+                    <input type="hidden" name="id" th:field="*{id}"/>
                     <div class="form-group">
                         <label for="name">Имя</label>
-                        <input type="text" class="form-control" name="name" id="name">
+                        <input type="text" class="form-control" name="name" id="name" th:field="*{name}">
+                        <label for="name">Описание</label>
+                        <input type="text" class="form-control" name="name" id="text" th:field="*{text}">
+                        <label for="name">Адрес</label>
+                        <input type="text" class="form-control" name="name" id="address" th:field="*{address}">
                     </div>
-                    <button type="submit" class="btn btn-primary mt-3">Сохранить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>
             </div>
         </div>
