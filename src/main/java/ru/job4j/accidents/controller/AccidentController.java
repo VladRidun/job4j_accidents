@@ -22,7 +22,7 @@ public class AccidentController {
             new AccidentType(1, "Две машины"),
             new AccidentType(2, "Машина и человек"),
             new AccidentType(3, "Машина и велосипед"));
-    private static final Set<Rule> rules = Set.of(
+    private  final Set<Rule> rules = Set.of(
             new Rule(1, "Статья. 1"),
             new Rule(2, "Статья. 2"),
             new Rule(3, "Статья. 3"));

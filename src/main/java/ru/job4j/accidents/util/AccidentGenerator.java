@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 public class AccidentGenerator {
-    private static final Set<Rule> rules = Set.of(
+    private final Set<Rule> rules = Set.of(
             new Rule(1, "Статья. 1"),
             new Rule(2, "Статья. 2"),
             new Rule(3, "Статья. 3"));
