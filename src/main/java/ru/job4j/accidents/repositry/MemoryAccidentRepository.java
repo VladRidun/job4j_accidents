@@ -1,10 +1,12 @@
 package ru.job4j.accidents.repositry;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
 
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -28,20 +30,20 @@ public class MemoryAccidentRepository implements AccidentRepository {
     }
 
     @Override
-    public Collection<Accident> findAll() {
-        return accidents.values();
+    public Optional<Collection<Accident>> findAll() {
+        return Optional.of(accidents.values());
     }
 
     @Override
-    public Collection<Accident> findByName(String key) {
-        return accidents.values().stream()
+    public Optional<Collection<Accident>> findByName(String key) {
+        return Optional.of(accidents.values().stream()
                 .filter(accident -> key.equals(accident.getName()))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
     }
 
     @Override
-    public Accident findById(int id) {
-        return accidents.get(id);
+    public Optional<Accident> findById(int id) {
+        return Optional.of(accidents.get(id));
     }
 
     @Override
@@ -52,11 +54,12 @@ public class MemoryAccidentRepository implements AccidentRepository {
                         accident.getName(),
                         accident.getText(),
                         accident.getAddress(),
-                        accident.getType())) != null;
+                        accident.getType(),
+                        accident.getRules())) != null;
     }
 
     @Override
     public boolean delete(int id) {
-        return accidents.remove(id) != null;
+       return accidents.remove(id) != null;
     }
 }

@@ -1,5 +1,6 @@
 package ru.job4j.accidents.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,22 +9,29 @@ import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.service.MemoryAccidentService;
 import ru.job4j.accidents.service.MemoryAccidentTypeService;
+import ru.job4j.accidents.service.MemoryRuleService;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
 public class AccidentController {
     private final MemoryAccidentService memoryAccidentService;
     private final MemoryAccidentTypeService memoryAccidentTypeService;
+    private final MemoryRuleService memoryRuleService;
 
     @GetMapping("/createAccident")
     public String viewCreateAccident(Model model) {
         model.addAttribute("types", memoryAccidentTypeService.findAll().get());
+        model.addAttribute("rules", memoryRuleService.findAll().get());
         return "createAccident";
     }
 
     @PostMapping("/saveAccident")
-    public String save(@ModelAttribute Accident accident) {
+    public String save(@ModelAttribute Accident accident, HttpServletRequest req) {
         AccidentType accidentType = memoryAccidentTypeService.findById(accident.getType().getId()).get();
+        String[] ids = req.getParameterValues("rIds");
         accident.setType(accidentType);
         memoryAccidentService.add(accident);
         return "redirect:/";

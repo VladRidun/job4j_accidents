@@ -6,16 +6,17 @@ import ru.job4j.accidents.model.AccidentType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class MemoryAccidentTypeRepository implements AccidentTypeRepository {
     private final List<AccidentType> types = new ArrayList<>();
-    private final List<AccidentType> typesInit = List.of(
-            new AccidentType(1, "Две машины"),
-            new AccidentType(2, "Машина и человек"),
-            new AccidentType(3, "Машина и велосипед"));
 
     public MemoryAccidentTypeRepository() {
+        List<AccidentType> typesInit = List.of(
+                new AccidentType(1, "Две машины"),
+                new AccidentType(2, "Машина и человек"),
+                new AccidentType(3, "Машина и велосипед"));
         typesInit.forEach(this::add);
     }
 
@@ -26,13 +27,13 @@ public class MemoryAccidentTypeRepository implements AccidentTypeRepository {
     }
 
     @Override
-    public Collection<AccidentType> findAll() {
-        return types;
+    public Optional<Collection<AccidentType>> findAll() {
+        return Optional.of(types);
     }
 
     @Override
-    public AccidentType findById(int id) {
-        return types.get(id);
+    public Optional<AccidentType> findById(int id) {
+        return Optional.of(types.get(id));
     }
 
     @Override

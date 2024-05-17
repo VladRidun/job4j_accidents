@@ -6,6 +6,7 @@ import ru.job4j.accidents.repositry.MemoryAccidentTypeRepository;
 
 import java.util.Collection;
 import java.util.Optional;
+
 @Service
 public class MemoryAccidentTypeService implements AccidentTypeService {
     private final MemoryAccidentTypeRepository accidentTypeRepository;
@@ -21,12 +22,12 @@ public class MemoryAccidentTypeService implements AccidentTypeService {
 
     @Override
     public Optional<Collection<AccidentType>> findAll() {
-        return Optional.of(accidentTypeRepository.findAll());
+        return accidentTypeRepository.findAll();
     }
 
     @Override
     public Optional<AccidentType> findById(int id) {
-        return Optional.of(accidentTypeRepository.findById(id));
+        return accidentTypeRepository.findById(id);
     }
 
     @Override

@@ -26,15 +26,27 @@ public class MemoryAccidentService implements AccidentService {
     }
 
     public Optional<List<AccidentReadDto>> findAll() {
-        return Optional.of(memoryAccidentRepository.findAll().stream().map(accidentReadMapper::mapFrom).collect(Collectors.toList()));
+        return memoryAccidentRepository.findAll().isPresent()
+                ? Optional.of(memoryAccidentRepository.findAll()
+                .get().stream()
+                .map(accidentReadMapper::mapFrom)
+                .collect(Collectors.toList()))
+                : Optional.empty();
     }
 
     public Optional<List<AccidentReadDto>> findByName(String key) {
-        return Optional.of(memoryAccidentRepository.findByName(key).stream().map(accidentReadMapper::mapFrom).collect(Collectors.toList()));
+        return memoryAccidentRepository.findByName(key).isPresent()
+                ? Optional.of(memoryAccidentRepository.findByName(key)
+                .get().stream()
+                .map(accidentReadMapper::mapFrom)
+                .collect(Collectors.toList()))
+                : Optional.empty();
     }
 
     public Optional<AccidentReadDto> findById(int id) {
-        return Optional.of(accidentReadMapper.mapFrom(memoryAccidentRepository.findById(id)));
+        return memoryAccidentRepository.findById(id).isPresent()
+                ? Optional.of(accidentReadMapper.mapFrom(memoryAccidentRepository.findById(id).get()))
+                : Optional.empty();
     }
 
     public boolean update(Accident accident) {
@@ -42,6 +54,8 @@ public class MemoryAccidentService implements AccidentService {
     }
 
     public boolean delete(int id) {
-        return memoryAccidentRepository.delete(id);
+        var maybeAccident = memoryAccidentRepository.findById(id);
+        maybeAccident.ifPresent(accident -> memoryAccidentRepository.delete(id));
+        return maybeAccident.isPresent();
     }
 }
