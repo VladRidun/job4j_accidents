@@ -29,6 +29,14 @@
                         <input type="text" class="form-control" name="name" id="text" th:field="*{text}">
                         <label for="name">Адрес</label>
                         <input type="text" class="form-control" name="name" id="address" th:field="*{address}">
+                        <div class="form-group">
+                            <label for="type.id">Тип</label>
+                            <select class="form-control" id="type.id" name="type.id">
+                                <option th:each="type: ${types}"
+                                        th:text="${type.name}"
+                                        th:value="${type.id}"></option>
+                            </select>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>

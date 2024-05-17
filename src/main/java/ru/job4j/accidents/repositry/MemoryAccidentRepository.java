@@ -51,7 +51,8 @@ public class MemoryAccidentRepository implements AccidentRepository {
                         oldVacancy.getId(),
                         accident.getName(),
                         accident.getText(),
-                        accident.getAddress())) != null;
+                        accident.getAddress(),
+                        accident.getType())) != null;
     }
 
     @Override
