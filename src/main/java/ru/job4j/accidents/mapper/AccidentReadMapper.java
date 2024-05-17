@@ -10,7 +10,6 @@ public class AccidentReadMapper implements Mapper<Accident, AccidentReadDto> {
         return new AccidentReadDto(a.getId(),
                 a.getName(),
                 a.getText(),
-                a.getAddress(),
-                a.getType().getName());
+                a.getAddress());
     }
 }
