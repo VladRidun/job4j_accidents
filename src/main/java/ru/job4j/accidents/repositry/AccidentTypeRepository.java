@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 public interface AccidentTypeRepository {
     public AccidentType add(AccidentType accidentType);
 
-    public Optional<Collection<AccidentType>> findAll();
+    public Collection<AccidentType> findAll();
 
     public Optional<AccidentType> findById(int id);
 

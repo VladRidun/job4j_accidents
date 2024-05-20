@@ -1,40 +1,39 @@
 package ru.job4j.accidents.repositry;
 
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.model.Rule;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Repository
 public class MemoryRuleRepository implements RuleRepository {
-    private final List<Rule> rules = new ArrayList<>();
+    private final ConcurrentHashMap<Integer, Rule> rules = new ConcurrentHashMap();
 
     public MemoryRuleRepository() {
         List<Rule> typesInit = List.of(new Rule(1, "Статья. 1"),
-                        new Rule(2, "Статья. 2"),
-                        new Rule(3, "Статья. 3"));
+                new Rule(2, "Статья. 2"),
+                new Rule(3, "Статья. 3"));
         typesInit.forEach(this::add);
     }
 
     @Override
     public Rule add(Rule rule) {
-        rules.add(rule);
+        rules.put(rule.getId(), rule);
         return rule;
     }
 
     @Override
-    public Optional<Collection<Rule>> findAll() {
-        return Optional.of(rules);
+    public Collection<Rule> findAll() {
+        return new ArrayList<>(rules.values());
     }
 
     @Override
-    public Optional<Collection<Rule>> findByName(String key) {
-        return Optional.of(rules.stream()
+    public Collection<Rule> findByName(String key) {
+        return rules.values().stream()
                 .filter(rule -> key.equals(rule.getName()))
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
     }
 
     @Override

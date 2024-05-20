@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.job4j.accidents.dto.AccidentReadDto;
 import ru.job4j.accidents.mapper.AccidentReadMapper;
 import ru.job4j.accidents.model.Accident;
+import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.repositry.MemoryAccidentRepository;
 
 import java.util.List;
@@ -13,15 +14,18 @@ import java.util.stream.Collectors;
 @Service
 public class MemoryAccidentService implements AccidentService {
     private final MemoryAccidentRepository memoryAccidentRepository;
+    private final MemoryAccidentTypeService memoryAccidentTypeService;
     private final AccidentReadMapper accidentReadMapper;
 
-    public MemoryAccidentService(MemoryAccidentRepository memoryAccidentRepository, AccidentReadMapper accidentReadMapper) {
+    public MemoryAccidentService(MemoryAccidentRepository memoryAccidentRepository, MemoryAccidentTypeService memoryAccidentTypeService, AccidentReadMapper accidentReadMapper) {
         this.memoryAccidentRepository = memoryAccidentRepository;
-
+        this.memoryAccidentTypeService = memoryAccidentTypeService;
         this.accidentReadMapper = accidentReadMapper;
     }
 
     public Accident add(Accident accident) {
+        AccidentType accidentType = memoryAccidentTypeService.findById(accident.getType().getId()).get();
+        accident.setType(accidentType);
         return memoryAccidentRepository.add(accident);
     }
 

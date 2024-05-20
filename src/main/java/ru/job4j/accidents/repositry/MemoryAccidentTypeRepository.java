@@ -3,32 +3,31 @@ package ru.job4j.accidents.repositry;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.AccidentType;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 public class MemoryAccidentTypeRepository implements AccidentTypeRepository {
-    private final List<AccidentType> types = new ArrayList<>();
+    private final ConcurrentHashMap<Integer, AccidentType> types = new ConcurrentHashMap<>();
 
     public MemoryAccidentTypeRepository() {
         List<AccidentType> typesInit = List.of(
                 new AccidentType(1, "Две машины"),
                 new AccidentType(2, "Машина и человек"),
                 new AccidentType(3, "Машина и велосипед"));
-        typesInit.forEach(this::add);
+        typesInit.forEach(accidentType -> types.put(accidentType.getId(), accidentType));
     }
 
     @Override
     public AccidentType add(AccidentType accidentType) {
-        types.add(accidentType);
+        types.put(accidentType.getId(), accidentType);
         return accidentType;
     }
 
     @Override
-    public Optional<Collection<AccidentType>> findAll() {
-        return Optional.of(types);
+    public Collection<AccidentType> findAll() {
+        return new ArrayList<>(types.values());
     }
 
     @Override

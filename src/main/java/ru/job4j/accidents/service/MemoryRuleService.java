@@ -19,12 +19,12 @@ public class MemoryRuleService implements RuleService {
     }
 
     @Override
-    public Optional<Collection<Rule>> findAll() {
+    public Collection<Rule> findAll() {
         return memoryRuleRepository.findAll();
     }
 
     @Override
-    public Optional<Collection<Rule>> findByName(String key) {
+    public Collection<Rule> findByName(String key) {
         return memoryRuleRepository.findByName(key);
     }
 

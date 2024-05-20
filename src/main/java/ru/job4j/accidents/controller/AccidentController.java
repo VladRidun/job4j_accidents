@@ -12,6 +12,7 @@ import ru.job4j.accidents.service.MemoryAccidentTypeService;
 import ru.job4j.accidents.service.MemoryRuleService;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -23,16 +24,17 @@ public class AccidentController {
 
     @GetMapping("/createAccident")
     public String viewCreateAccident(Model model) {
-        model.addAttribute("types", memoryAccidentTypeService.findAll().get());
-        model.addAttribute("rules", memoryRuleService.findAll().get());
+        model.addAttribute("types", memoryAccidentTypeService.findAll());
+        model.addAttribute("rules", memoryRuleService.findAll());
         return "createAccident";
     }
 
     @PostMapping("/saveAccident")
     public String save(@ModelAttribute Accident accident, HttpServletRequest req) {
-        AccidentType accidentType = memoryAccidentTypeService.findById(accident.getType().getId()).get();
         String[] ids = req.getParameterValues("rIds");
-        accident.setType(accidentType);
+        var inIds = Arrays.stream(ids).map(Integer::parseInt).toList();
+        var rules = inIds.stream().map(id -> memoryRuleService.findById(id).get()).collect(Collectors.toSet());
+        accident.setRules(rules);
         memoryAccidentService.add(accident);
         return "redirect:/";
     }

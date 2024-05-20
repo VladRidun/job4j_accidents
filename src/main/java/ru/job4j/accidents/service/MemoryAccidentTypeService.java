@@ -21,7 +21,7 @@ public class MemoryAccidentTypeService implements AccidentTypeService {
     }
 
     @Override
-    public Optional<Collection<AccidentType>> findAll() {
+    public Collection<AccidentType> findAll() {
         return accidentTypeRepository.findAll();
     }
 
