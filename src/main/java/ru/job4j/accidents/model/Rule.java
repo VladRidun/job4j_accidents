@@ -14,4 +14,8 @@ public class Rule {
     private int id;
 
     private String name;
+
+    public Rule(String name) {
+        this.name = name;
+    }
 }

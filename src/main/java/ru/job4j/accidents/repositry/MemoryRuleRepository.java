@@ -5,22 +5,25 @@ import ru.job4j.accidents.model.Rule;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Repository
 public class MemoryRuleRepository implements RuleRepository {
-    private final ConcurrentHashMap<Integer, Rule> rules = new ConcurrentHashMap();
+    private final AtomicInteger ruleId = new AtomicInteger(1);
+    private final Map<Integer, Rule> rules = new ConcurrentHashMap<>();
 
     public MemoryRuleRepository() {
-        List<Rule> typesInit = List.of(new Rule(1, "Статья. 1"),
-                new Rule(2, "Статья. 2"),
-                new Rule(3, "Статья. 3"));
+        List<Rule> typesInit = List.of(new Rule("Статья. 1"),
+                new Rule("Статья. 2"),
+                new Rule("Статья. 3"));
         typesInit.forEach(this::add);
     }
 
     @Override
     public Rule add(Rule rule) {
-        rules.put(rule.getId(), rule);
+        rule.setId(ruleId.getAndIncrement());
+        rules.putIfAbsent(rule.getId(), rule);
         return rule;
     }
 

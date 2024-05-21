@@ -13,5 +13,11 @@ public class AccidentType {
     @EqualsAndHashCode.Include
     private int id;
 
+    public AccidentType(String name) {
+        this.name = name;
+    }
+
     private String name;
+
+
 }
