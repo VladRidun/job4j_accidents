@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AccidentService {
-    public Accident add(Accident accident);
+    public Accident add(Accident accident, List<Integer> rIds);
 
     public Optional<List<AccidentReadDto>> findAll();
 

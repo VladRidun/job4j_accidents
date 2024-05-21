@@ -41,7 +41,7 @@ public class MemoryRuleRepository implements RuleRepository {
 
     @Override
     public Optional<Rule> findById(int id) {
-        return Optional.of(rules.get(id));
+        return rules.containsKey(id) ? Optional.of(rules.get(id)) : Optional.empty();
     }
 
     @Override

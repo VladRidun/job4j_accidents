@@ -35,7 +35,7 @@ public class MemoryAccidentTypeRepository implements AccidentTypeRepository {
 
     @Override
     public Optional<AccidentType> findById(int id) {
-        return Optional.of(types.get(id));
+        return types.containsKey(id) ? Optional.of(types.get(id)) : Optional.empty();
     }
 
     @Override

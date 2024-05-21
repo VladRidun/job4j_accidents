@@ -16,15 +16,18 @@ public class MemoryAccidentService implements AccidentService {
     private final MemoryAccidentRepository memoryAccidentRepository;
     private final MemoryAccidentTypeService memoryAccidentTypeService;
     private final AccidentReadMapper accidentReadMapper;
+    private final MemoryRuleService memoryRuleService;
 
-    public MemoryAccidentService(MemoryAccidentRepository memoryAccidentRepository, MemoryAccidentTypeService memoryAccidentTypeService, AccidentReadMapper accidentReadMapper) {
+    public MemoryAccidentService(MemoryAccidentRepository memoryAccidentRepository, MemoryAccidentTypeService memoryAccidentTypeService, AccidentReadMapper accidentReadMapper, MemoryRuleService memoryRuleService) {
         this.memoryAccidentRepository = memoryAccidentRepository;
         this.memoryAccidentTypeService = memoryAccidentTypeService;
         this.accidentReadMapper = accidentReadMapper;
+        this.memoryRuleService = memoryRuleService;
     }
 
-    public Accident add(Accident accident) {
+    public Accident add(Accident accident, List<Integer> rIds) {
         AccidentType accidentType = memoryAccidentTypeService.findById(accident.getType().getId()).get();
+        accident.setRules(rIds.stream().map(id -> memoryRuleService.findById(id).get()).collect(Collectors.toSet()));
         accident.setType(accidentType);
         return memoryAccidentRepository.add(accident);
     }

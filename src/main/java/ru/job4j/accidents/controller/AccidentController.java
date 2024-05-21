@@ -30,12 +30,8 @@ public class AccidentController {
     }
 
     @PostMapping("/saveAccident")
-    public String save(@ModelAttribute Accident accident, HttpServletRequest req) {
-        String[] ids = req.getParameterValues("rIds");
-        var inIds = Arrays.stream(ids).map(Integer::parseInt).toList();
-        var rules = inIds.stream().map(id -> memoryRuleService.findById(id).get()).collect(Collectors.toSet());
-        accident.setRules(rules);
-        memoryAccidentService.add(accident);
+    public String save(@ModelAttribute Accident accident, @RequestParam List<Integer> rIds) {
+        memoryAccidentService.add(accident, rIds);
         return "redirect:/";
     }
 
