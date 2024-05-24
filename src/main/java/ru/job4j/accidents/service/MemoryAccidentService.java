@@ -6,6 +6,8 @@ import ru.job4j.accidents.mapper.AccidentReadMapper;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.repositry.MemoryAccidentRepository;
+import ru.job4j.accidents.repositry.MemoryAccidentTypeRepository;
+import ru.job4j.accidents.repositry.MemoryRuleRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,40 +16,35 @@ import java.util.stream.Collectors;
 @Service
 public class MemoryAccidentService implements AccidentService {
     private final MemoryAccidentRepository memoryAccidentRepository;
-    private final MemoryAccidentTypeService memoryAccidentTypeService;
+    private final MemoryAccidentTypeRepository memoryAccidentTypeRepository;
     private final AccidentReadMapper accidentReadMapper;
-    private final MemoryRuleService memoryRuleService;
+    private final MemoryRuleRepository memoryRuleRepository;
 
-    public MemoryAccidentService(MemoryAccidentRepository memoryAccidentRepository, MemoryAccidentTypeService memoryAccidentTypeService, AccidentReadMapper accidentReadMapper, MemoryRuleService memoryRuleService) {
+    public MemoryAccidentService(MemoryAccidentRepository memoryAccidentRepository, MemoryAccidentTypeRepository memoryAccidentTypeRepository, AccidentReadMapper accidentReadMapper, MemoryRuleRepository memoryRuleRepository) {
         this.memoryAccidentRepository = memoryAccidentRepository;
-        this.memoryAccidentTypeService = memoryAccidentTypeService;
+        this.memoryAccidentTypeRepository = memoryAccidentTypeRepository;
         this.accidentReadMapper = accidentReadMapper;
-        this.memoryRuleService = memoryRuleService;
+        this.memoryRuleRepository = memoryRuleRepository;
     }
 
     public Accident add(Accident accident, List<Integer> rIds) {
-        AccidentType accidentType = memoryAccidentTypeService.findById(accident.getType().getId()).get();
-        accident.setRules(rIds.stream().map(id -> memoryRuleService.findById(id).get()).collect(Collectors.toSet()));
-        accident.setType(accidentType);
+        accident.setRules(memoryRuleRepository.findAllById(rIds));
+        accident.setType(memoryAccidentTypeRepository.findById(accident.getType().getId()).get());
         return memoryAccidentRepository.add(accident);
     }
 
-    public Optional<List<AccidentReadDto>> findAll() {
-        return memoryAccidentRepository.findAll().isPresent()
-                ? Optional.of(memoryAccidentRepository.findAll()
-                .get().stream()
+    public List<AccidentReadDto> findAll() {
+        return memoryAccidentRepository.findAll()
+                .stream()
                 .map(accidentReadMapper::mapFrom)
-                .collect(Collectors.toList()))
-                : Optional.empty();
+                .collect(Collectors.toList());
     }
 
-    public Optional<List<AccidentReadDto>> findByName(String key) {
-        return memoryAccidentRepository.findByName(key).isPresent()
-                ? Optional.of(memoryAccidentRepository.findByName(key)
-                .get().stream()
+    public List<AccidentReadDto> findByName(String key) {
+        return memoryAccidentRepository.findByName(key)
+                .stream()
                 .map(accidentReadMapper::mapFrom)
-                .collect(Collectors.toList()))
-                : Optional.empty();
+                .collect(Collectors.toList());
     }
 
     public Optional<AccidentReadDto> findById(int id) {

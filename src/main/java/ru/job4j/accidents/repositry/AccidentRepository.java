@@ -8,9 +8,9 @@ import java.util.Optional;
 public interface AccidentRepository {
     public Accident add(Accident accident);
 
-    public Optional<Collection<Accident>> findAll();
+    public Collection<Accident> findAll();
 
-    public Optional<Collection<Accident>> findByName(String key);
+    public Collection<Accident> findByName(String key);
 
     public Optional<Accident> findById(int id);
 

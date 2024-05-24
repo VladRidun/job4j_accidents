@@ -6,6 +6,7 @@ import ru.job4j.accidents.model.Accident;
 
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -16,7 +17,7 @@ import static ru.job4j.accidents.util.AccidentGenerator.generateAccidents;
 @Repository
 public class MemoryAccidentRepository implements AccidentRepository {
     private final AtomicInteger accidentId = new AtomicInteger(1);
-    private final ConcurrentHashMap<Integer, Accident> accidents = new ConcurrentHashMap<Integer, Accident>();
+    private final Map<Integer, Accident> accidents = new ConcurrentHashMap<Integer, Accident>();
 
     private MemoryAccidentRepository() {
         generateAccidents().forEach(this::add);
@@ -30,15 +31,15 @@ public class MemoryAccidentRepository implements AccidentRepository {
     }
 
     @Override
-    public Optional<Collection<Accident>> findAll() {
-        return Optional.of(accidents.values());
+    public Collection<Accident> findAll() {
+        return accidents.values();
     }
 
     @Override
-    public Optional<Collection<Accident>> findByName(String key) {
-        return Optional.of(accidents.values().stream()
+    public Collection<Accident> findByName(String key) {
+        return accidents.values().stream()
                 .filter(accident -> key.equals(accident.getName()))
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
     }
 
     @Override

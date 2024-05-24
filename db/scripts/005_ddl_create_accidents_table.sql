@@ -4,6 +4,5 @@ CREATE TABLE accidents
     name    text,
     text    text,
     address text,
-    type    text,
-    rules   text
+    type_id int REFERENCES types(id)
 );

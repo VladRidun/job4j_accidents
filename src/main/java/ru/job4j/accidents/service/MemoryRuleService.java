@@ -29,6 +29,11 @@ public class MemoryRuleService implements RuleService {
     }
 
     @Override
+    public Collection<Rule> findAllById(Collection<Integer> rulesId) {
+        return memoryRuleRepository.findAllById(rulesId);
+    }
+
+    @Override
     public Optional<Rule> findById(int id) {
         return memoryRuleRepository.findById(id);
     }

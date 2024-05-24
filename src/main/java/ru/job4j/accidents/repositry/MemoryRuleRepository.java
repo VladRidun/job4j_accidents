@@ -40,6 +40,11 @@ public class MemoryRuleRepository implements RuleRepository {
     }
 
     @Override
+    public Set<Rule> findAllById(Collection<Integer> rulesId) {
+        return rules.values().stream().filter(rule -> rulesId.contains(rule.getId())).collect(Collectors.toSet());
+    }
+
+   @Override
     public Optional<Rule> findById(int id) {
         return rules.containsKey(id) ? Optional.of(rules.get(id)) : Optional.empty();
     }

@@ -19,5 +19,4 @@ public class AccidentType {
 
     private String name;
 
-
 }

@@ -13,6 +13,8 @@ public interface RuleRepository {
 
     public Collection<Rule> findByName(String key);
 
+    Collection<Rule> findAllById(Collection<Integer> rulesId);
+
     public Optional<Rule> findById(int id);
 
     public boolean delete(int id);

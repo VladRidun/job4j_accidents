@@ -10,9 +10,9 @@ import java.util.Optional;
 public interface AccidentService {
     public Accident add(Accident accident, List<Integer> rIds);
 
-    public Optional<List<AccidentReadDto>> findAll();
+    public List<AccidentReadDto> findAll();
 
-    public Optional<List<AccidentReadDto>> findByName(String key);
+    public List<AccidentReadDto> findByName(String key);
 
     Optional<AccidentReadDto> findById(int id);
 
