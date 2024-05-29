@@ -1,5 +1,6 @@
 package ru.job4j.accidents.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.dto.AccidentReadDto;
 import ru.job4j.accidents.mapper.AccidentReadMapper;
@@ -14,18 +15,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class MemoryAccidentService implements AccidentService {
     private final MemoryAccidentRepository memoryAccidentRepository;
     private final MemoryAccidentTypeRepository memoryAccidentTypeRepository;
     private final AccidentReadMapper accidentReadMapper;
     private final MemoryRuleRepository memoryRuleRepository;
-
-    public MemoryAccidentService(MemoryAccidentRepository memoryAccidentRepository, MemoryAccidentTypeRepository memoryAccidentTypeRepository, AccidentReadMapper accidentReadMapper, MemoryRuleRepository memoryRuleRepository) {
-        this.memoryAccidentRepository = memoryAccidentRepository;
-        this.memoryAccidentTypeRepository = memoryAccidentTypeRepository;
-        this.accidentReadMapper = accidentReadMapper;
-        this.memoryRuleRepository = memoryRuleRepository;
-    }
 
     public Accident add(Accident accident, List<Integer> rIds) {
         accident.setRules(memoryRuleRepository.findAllById(rIds));

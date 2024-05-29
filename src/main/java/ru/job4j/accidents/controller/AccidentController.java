@@ -1,43 +1,39 @@
 package ru.job4j.accidents.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.model.AccidentType;
-import ru.job4j.accidents.service.MemoryAccidentService;
-import ru.job4j.accidents.service.MemoryAccidentTypeService;
-import ru.job4j.accidents.service.MemoryRuleService;
+import ru.job4j.accidents.service.JdbcAccidentService;
+import ru.job4j.accidents.service.JdbcAccidentTypeService;
+import ru.job4j.accidents.service.JdbcRuleService;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
 public class AccidentController {
-    private final MemoryAccidentService memoryAccidentService;
-    private final MemoryAccidentTypeService memoryAccidentTypeService;
-    private final MemoryRuleService memoryRuleService;
+    private final JdbcAccidentService accidentService;
+    private final JdbcAccidentTypeService accidentTypeService;
+    private final JdbcRuleService ruleService;
 
     @GetMapping("/createAccident")
     public String viewCreateAccident(Model model) {
-        model.addAttribute("types", memoryAccidentTypeService.findAll());
-        model.addAttribute("rules", memoryRuleService.findAll());
+        model.addAttribute("types", accidentTypeService.findAll());
+        model.addAttribute("rules", ruleService.findAll());
         return "createAccident";
     }
 
     @PostMapping("/saveAccident")
     public String save(@ModelAttribute Accident accident, @RequestParam List<Integer> rIds) {
-        memoryAccidentService.add(accident, rIds);
+        accidentService.add(accident, rIds);
         return "redirect:/";
     }
 
     @GetMapping("/updateAccident")
     public String update(@RequestParam("id") int id, Model model) {
-        var accidentOptional = memoryAccidentService.findById(id);
+        var accidentOptional = accidentService.findById(id);
         if (accidentOptional.isEmpty()) {
             model.addAttribute("message", "Нарушение не найдено");
             return "errors/404";
@@ -49,6 +45,6 @@ public class AccidentController {
     @PostMapping("/updateAccident")
     public String update(@ModelAttribute Accident accident, Model model) {
         model.addAttribute("message", "Не удалось выполнить редактирование");
-        return memoryAccidentService.update(accident) ? "redirect:/" : "errors/404";
+        return accidentService.update(accident) ? "redirect:/" : "errors/404";
     }
 }
