@@ -16,25 +16,25 @@ public class JdbcAccidentTypeRepository implements AccidentTypeRepository {
 
     @Override
     public AccidentType add(AccidentType accidentType) {
-        jdbc.update("insert into types (name) values (?)",
+        jdbc.update("insert into types (type_name) values (?)",
                 accidentType.getName());
         return accidentType;
     }
 
     @Override
     public Collection<AccidentType> findAll() {
-        return jdbc.query("select id, name from types",
+        return jdbc.query("select id, type_name from types",
                 (rs, row) -> {
                     AccidentType accidentType = new AccidentType();
                     accidentType.setId(rs.getInt("id"));
-                    accidentType.setName(rs.getString("name"));
+                    accidentType.setName(rs.getString("type_name"));
                     return accidentType;
                 });
     }
 
     @Override
     public Optional<AccidentType> findById(int id) {
-        return jdbc.query("select id, name from types where id = ?", new Object[]{id}, new JdbcTypeMapper()).stream().findAny();
+        return jdbc.query("select id, type_name from types where id = ?", new Object[]{id}, new JdbcTypeMapper()).stream().findAny();
     }
 
     @Override

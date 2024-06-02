@@ -48,7 +48,9 @@ public class MemoryAccidentService implements AccidentService {
                 : Optional.empty();
     }
 
-    public boolean update(Accident accident) {
+    public boolean update(Accident accident, List<Integer> rIds) {
+        accident.setRules(memoryRuleRepository.findAllById(rIds));
+        accident.setType(memoryAccidentTypeRepository.findById(accident.getType().getId()).get());
         return memoryAccidentRepository.update(accident);
     }
 

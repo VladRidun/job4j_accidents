@@ -1,4 +1,4 @@
 CREATE TABLE rules (
                       id SERIAL PRIMARY KEY,
-                      name TEXT UNIQUE NOT NULL
+                      rule_name TEXT UNIQUE NOT NULL
 );

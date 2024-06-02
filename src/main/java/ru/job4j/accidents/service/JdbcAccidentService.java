@@ -55,7 +55,10 @@ public class JdbcAccidentService implements AccidentService {
     }
 
     @Override
-    public boolean update(Accident accident) {
+    public boolean update(Accident accident, List<Integer> rIds) {
+        var rules = new HashSet<>(jdbcRuleRepository.findAllById(rIds));
+        accident.setRules(rules);
+        accident.setType(jdbcAccidentTypeRepository.findById(accident.getType().getId()).get());
         return jdbcAccidentRepository.update(accident);
     }
 

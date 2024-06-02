@@ -16,7 +16,7 @@ public interface AccidentService {
 
     Optional<AccidentReadDto> findById(int id);
 
-    public boolean update(Accident accident);
+    public boolean update(Accident accident, List<Integer> rIds);
 
     public boolean delete(int id);
 }

@@ -12,7 +12,7 @@ public class JdbcTypeMapper implements RowMapper<AccidentType> {
     public AccidentType mapRow(ResultSet rs, int rowNum) throws SQLException {
         AccidentType type = new AccidentType();
         type.setId(rs.getInt("id"));
-        type.setName(rs.getString("name"));
+        type.setName(rs.getString("type_name"));
         return type;
     }
 }

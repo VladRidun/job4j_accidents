@@ -19,10 +19,6 @@ public class MemoryAccidentRepository implements AccidentRepository {
     private final AtomicInteger accidentId = new AtomicInteger(1);
     private final Map<Integer, Accident> accidents = new ConcurrentHashMap<Integer, Accident>();
 
-    private MemoryAccidentRepository() {
-        generateAccidents().forEach(this::add);
-    }
-
     @Override
     public Accident add(Accident accident) {
         accident.setId(accidentId.getAndIncrement());

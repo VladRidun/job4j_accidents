@@ -34,6 +34,8 @@ public class AccidentController {
     @GetMapping("/updateAccident")
     public String update(@RequestParam("id") int id, Model model) {
         var accidentOptional = accidentService.findById(id);
+        model.addAttribute("types", accidentTypeService.findAll());
+        model.addAttribute("rules", ruleService.findAll());
         if (accidentOptional.isEmpty()) {
             model.addAttribute("message", "Нарушение не найдено");
             return "errors/404";
@@ -43,8 +45,8 @@ public class AccidentController {
     }
 
     @PostMapping("/updateAccident")
-    public String update(@ModelAttribute Accident accident, Model model) {
+    public String update(@ModelAttribute Accident accident, Model model, @RequestParam List<Integer> rIds) {
         model.addAttribute("message", "Не удалось выполнить редактирование");
-        return accidentService.update(accident) ? "redirect:/" : "errors/404";
+        return accidentService.update(accident, rIds) ? "redirect:/" : "errors/404";
     }
 }

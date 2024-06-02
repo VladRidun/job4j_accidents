@@ -3,6 +3,7 @@ package ru.job4j.accidents.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Rule;
+import ru.job4j.accidents.repositry.JdbcRuleRepository;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -10,35 +11,35 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class JdbcRuleService implements RuleService {
-    private final JdbcRuleService jdbcRuleService;
+    private final JdbcRuleRepository ruleRepository;
 
     @Override
     public Rule add(Rule rule) {
-        return jdbcRuleService.add(rule);
+        return ruleRepository.add(rule);
     }
 
     @Override
     public Collection<Rule> findAll() {
-        return jdbcRuleService.findAll();
+        return ruleRepository.findAll();
     }
 
     @Override
     public Collection<Rule> findByName(String key) {
-        return jdbcRuleService.findByName(key);
+        return ruleRepository.findByName(key);
     }
 
     @Override
     public Collection<Rule> findAllById(Collection<Integer> rulesId) {
-        return jdbcRuleService.findAllById(rulesId);
+        return ruleRepository.findAllById(rulesId);
     }
 
     @Override
     public Optional<Rule> findById(int id) {
-        return jdbcRuleService.findById(id);
+        return ruleRepository.findById(id);
     }
 
     @Override
     public boolean delete(int id) {
-        return jdbcRuleService.delete(id);
+        return ruleRepository.delete(id);
     }
 }
