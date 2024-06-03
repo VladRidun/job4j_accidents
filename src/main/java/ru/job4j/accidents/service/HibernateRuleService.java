@@ -1,17 +1,21 @@
 package ru.job4j.accidents.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Rule;
-import ru.job4j.accidents.repositry.JdbcRuleRepository;
+import ru.job4j.accidents.repositry.RuleRepository;
 
 import java.util.Collection;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class JdbcRuleService implements RuleService {
-    private final JdbcRuleRepository ruleRepository;
+
+public class HibernateRuleService implements RuleService {
+
+    private final RuleRepository ruleRepository;
 
     @Override
     public Rule add(Rule rule) {

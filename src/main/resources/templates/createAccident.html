@@ -24,15 +24,15 @@
                     <input type="hidden" name="id" value="0"/>
                     <div class="form-group">
                         <label for="name">Имя</label>
-                        <input type="text" class="form-control" name="name" id="name">
+                        <input type="text" class="form-control" name="name" id="name" required>
                         <label for="name">Описание</label>
-                        <input type="text" class="form-control" name="text" id="text">
+                        <input type="text" class="form-control" name="text" id="text" required>
                         <label for="name">Адрес</label>
-                        <input type="text" class="form-control" name="address" id="address">
+                        <input type="text" class="form-control" name="address" id="address" required>
                     </div>
                     <div class="form-group">
                         <label for="type.id">Тип</label>
-                        <select class="form-control" id="type.id" name="type.id">
+                        <select class="form-control" id="type.id" name="type.id" required>
                             <option th:each="type: ${types}"
                                     th:text="${type.name}"
                                     th:value="${type.id}"></option>

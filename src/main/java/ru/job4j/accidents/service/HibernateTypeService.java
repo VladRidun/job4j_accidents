@@ -1,17 +1,21 @@
 package ru.job4j.accidents.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.AccidentType;
-import ru.job4j.accidents.repositry.MemoryAccidentTypeRepository;
+import ru.job4j.accidents.repositry.AccidentTypeRepository;
 
 import java.util.Collection;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class MemoryAccidentTypeService implements AccidentTypeService {
-    private final MemoryAccidentTypeRepository accidentTypeRepository;
+
+public class HibernateTypeService implements AccidentTypeService {
+
+    private final AccidentTypeRepository accidentTypeRepository;
 
     @Override
     public AccidentType add(AccidentType accidentType) {

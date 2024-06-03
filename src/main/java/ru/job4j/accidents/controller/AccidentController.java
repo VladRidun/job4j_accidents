@@ -1,22 +1,22 @@
 package ru.job4j.accidents.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.service.JdbcAccidentService;
-import ru.job4j.accidents.service.JdbcAccidentTypeService;
-import ru.job4j.accidents.service.JdbcRuleService;
+import ru.job4j.accidents.service.*;
 
 import java.util.List;
 
 @Controller
 @AllArgsConstructor
 public class AccidentController {
-    private final JdbcAccidentService accidentService;
-    private final JdbcAccidentTypeService accidentTypeService;
-    private final JdbcRuleService ruleService;
+
+    private final AccidentService accidentService;
+    private final AccidentTypeService accidentTypeService;
+    private final RuleService ruleService;
 
     @GetMapping("/createAccident")
     public String viewCreateAccident(Model model) {
@@ -46,7 +46,7 @@ public class AccidentController {
 
     @PostMapping("/updateAccident")
     public String update(@ModelAttribute Accident accident, Model model, @RequestParam List<Integer> rIds) {
-        model.addAttribute("message", "Не удалось выполнить редактирование");
-        return accidentService.update(accident, rIds) ? "redirect:/" : "errors/404";
+        accidentService.update(accident, rIds);
+        return "redirect:/";
     }
 }

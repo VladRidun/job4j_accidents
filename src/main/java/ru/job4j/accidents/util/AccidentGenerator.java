@@ -7,9 +7,8 @@ import ru.job4j.accidents.model.Rule;
 import java.util.List;
 import java.util.Set;
 
-public class AccidentGenerator {
-    public static List<Accident> generateAccidents() {
-        return List.of(
+public class AccidentGenerator { public static List<Accident> generateAccidents() {
+      return List.of(
                 new Accident("Первое нарушение", "наезд на сплошную", "Ульяновск",
                         new AccidentType(1, "Две машины"),
                         Set.of(
@@ -26,6 +25,5 @@ public class AccidentGenerator {
                                 new Rule(1, "Статья. 1"),
                                 new Rule(2, "Статья. 2")))
         );
-    }
-
-}
+   }
+ }

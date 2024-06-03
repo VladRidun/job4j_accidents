@@ -1,6 +1,6 @@
-CREATE TABLE accindents_rules (
+CREATE TABLE accidents_rules (
                                  id serial PRIMARY KEY,
-                                 accindent_id int not null REFERENCES accidents(id),
+                                 accident_id int not null REFERENCES accidents(id),
                                  rule_id int not null REFERENCES rules(id),
-                                 UNIQUE (accindent_id, rule_id)
+                                 UNIQUE (accident_id, rule_id)
 );
