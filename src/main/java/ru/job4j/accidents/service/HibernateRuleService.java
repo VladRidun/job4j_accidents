@@ -1,11 +1,9 @@
 package ru.job4j.accidents.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Rule;
-import ru.job4j.accidents.repositry.RuleRepository;
+import ru.job4j.accidents.repository.RuleRepository;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -43,7 +41,7 @@ public class HibernateRuleService implements RuleService {
     }
 
     @Override
-    public boolean delete(int id) {
-        return ruleRepository.delete(id);
+    public void delete(int id) {
+        ruleRepository.delete(id);
     }
 }

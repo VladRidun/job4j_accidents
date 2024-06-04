@@ -1,4 +1,4 @@
-package ru.job4j.accidents.repositry;
+package ru.job4j.accidents.repository;
 
 
 import ru.job4j.accidents.model.Rule;
@@ -17,5 +17,5 @@ public interface RuleRepository {
 
     public Optional<Rule> findById(int id);
 
-    public boolean delete(int id);
+    public void delete(int id);
 }

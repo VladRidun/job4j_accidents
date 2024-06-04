@@ -1,10 +1,9 @@
-package ru.job4j.accidents.repositry;
+package ru.job4j.accidents.repository;
 
 import ru.job4j.accidents.model.AccidentType;
 
 import java.util.Collection;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 public interface AccidentTypeRepository {
     public AccidentType add(AccidentType accidentType);
@@ -13,5 +12,5 @@ public interface AccidentTypeRepository {
 
     public Optional<AccidentType> findById(int id);
 
-    public boolean delete(int id);
+    public void delete(int id);
 }

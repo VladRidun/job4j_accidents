@@ -16,5 +16,5 @@ public interface RuleService {
 
     public Optional<Rule> findById(int id);
 
-    public boolean delete(int id);
+    public void delete(int id);
 }

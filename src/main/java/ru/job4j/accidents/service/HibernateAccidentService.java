@@ -1,15 +1,13 @@
 package ru.job4j.accidents.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.dto.AccidentReadDto;
 import ru.job4j.accidents.mapper.AccidentReadMapper;
 import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.repositry.AccidentRepository;
-import ru.job4j.accidents.repositry.AccidentTypeRepository;
-import ru.job4j.accidents.repositry.RuleRepository;
+import ru.job4j.accidents.repository.AccidentRepository;
+import ru.job4j.accidents.repository.AccidentTypeRepository;
+import ru.job4j.accidents.repository.RuleRepository;
 
 
 import java.util.HashSet;
@@ -31,7 +29,8 @@ public class HibernateAccidentService implements AccidentService {
     public Accident add(Accident accident, List<Integer> rIds) {
         var rules = new HashSet<>(ruleRepository.findAllById(rIds));
         accident.setRules(rules);
-        accident.setType(accidentTypeRepository.findById(accident.getType().getId()).get());
+        var typeOptional = accidentTypeRepository.findById(accident.getType().getId());
+        typeOptional.ifPresent(accident::setType);
         return accidentRepository.add(accident);
     }
 
@@ -52,16 +51,16 @@ public class HibernateAccidentService implements AccidentService {
 
     @Override
     public Optional<AccidentReadDto> findById(int id) {
-        return accidentRepository.findById(id).isPresent()
-                ? Optional.of(accidentReadMapper.mapFrom(accidentRepository.findById(id).get()))
-                : Optional.empty();
+        var accidentOptional = accidentRepository.findById(id);
+        return accidentOptional.map(accidentReadMapper::mapFrom);
     }
 
     @Override
     public void update(Accident accident, List<Integer> rIds) {
         var rules = new HashSet<>(ruleRepository.findAllById(rIds));
         accident.setRules(rules);
-        accident.setType(accidentTypeRepository.findById(accident.getType().getId()).get());
+        var typeOptional = accidentTypeRepository.findById(accident.getType().getId());
+        typeOptional.ifPresent(accident::setType);
         accidentRepository.update(accident);
     }
 
