@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AccidentRepository extends CrudRepository<Accident, Integer> {
-    @Query("select distinct a FROM Accident a JOIN FETCH a.type JOIN FETCH a.rules where a.name like :name order by a.id")
-    List<Accident> findAllByName(String name);
 
     @Query("select distinct a FROM Accident a JOIN FETCH a.type JOIN FETCH a.rules order by a.id")
     Collection<Accident> getAll();
