@@ -7,15 +7,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AccidentService {
-    public Accident add(Accident accident, List<Integer> rIds);
+    Accident add(Accident accident, List<Integer> rIds);
 
-    public List<AccidentReadDto> findAll();
+    List<AccidentReadDto> findAll();
 
-    public List<AccidentReadDto> findByName(String key);
+     Optional<AccidentReadDto> findById(int id);
 
-    Optional<AccidentReadDto> findById(int id);
+    void update(Accident accident, List<Integer> rIds);
 
-    public void update(Accident accident, List<Integer> rIds);
-
-    public boolean delete(int id);
+    boolean delete(int id);
 }

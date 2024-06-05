@@ -9,15 +9,12 @@ import java.util.Optional;
 
 public interface RuleRepository extends CrudRepository<Rule, Integer> {
 
-    @Query("select id, name from Rule where name like :name")
-    public Collection<Rule> findByName(String name);
-
-    @Query("from Rule where id in :rulesId")
+     @Query("from Rule where id in :rulesId")
     Collection<Rule> findAllById(Collection<Integer> rulesId);
 
     @Query("select id, name from Rule where id = :id")
-    public Optional<Rule> findById(int id);
+    Optional<Rule> findById(int id);
 
     @Query("delete from Rule where id = :id")
-    public void deleteById(int id);
+    void deleteById(int id);
 }

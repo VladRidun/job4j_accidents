@@ -29,11 +29,6 @@ public class HibernateRuleService implements RuleService {
     }
 
     @Override
-    public Collection<Rule> findByName(String key) {
-        return ruleRepository.findByName(key);
-    }
-
-    @Override
     public Collection<Rule> findAllById(Collection<Integer> rulesId) {
         return ruleRepository.findAllById(rulesId);
     }

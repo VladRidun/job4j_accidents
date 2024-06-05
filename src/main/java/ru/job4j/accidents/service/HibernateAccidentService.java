@@ -38,13 +38,6 @@ public class HibernateAccidentService implements AccidentService {
     }
 
     @Override
-    public List<AccidentReadDto> findByName(String name) {
-        List<Accident> accidents = new ArrayList<>(accidentRepository.findAllByName(name));
-        return accidents.stream().map(accidentReadMapper::mapFrom).collect(Collectors.toList());
-
-    }
-
-    @Override
     public Optional<AccidentReadDto> findById(int id) {
         return accidentRepository.findById(id).map(accidentReadMapper::mapFrom);
     }

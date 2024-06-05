@@ -9,11 +9,11 @@ import java.util.Optional;
 
 public interface AccidentTypeRepository extends CrudRepository<AccidentType, Integer> {
     @Query("FROM AccidentType")
-    public Collection<AccidentType> getAll();
+    Collection<AccidentType> getAll();
 
     @Query("FROM AccidentType where id = :id")
-    public Optional<AccidentType> findById(int id);
+    Optional<AccidentType> findById(int id);
 
     @Query("DELETE AccidentType where id = :id")
-    public void deleteById(int id);
+    void deleteById(int id);
 }
