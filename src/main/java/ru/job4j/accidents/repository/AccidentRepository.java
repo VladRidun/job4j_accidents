@@ -1,22 +1,23 @@
 package ru.job4j.accidents.repository;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import ru.job4j.accidents.model.Accident;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
-public interface AccidentRepository {
+public interface AccidentRepository extends CrudRepository<Accident, Integer> {
+    @Query("select distinct a FROM Accident a JOIN FETCH a.type JOIN FETCH a.rules where a.name like :name order by a.id")
+    List<Accident> findAllByName(String name);
 
-    Accident add(Accident accident);
+    @Query("select distinct a FROM Accident a JOIN FETCH a.type JOIN FETCH a.rules order by a.id")
+    Collection<Accident> getAll();
 
-    Collection<Accident> findAll();
-
-    Collection<Accident> findByName(String key);
-
+    @Query(" select distinct a FROM Accident a JOIN FETCH a.type JOIN FETCH a.rules where a.id = :id")
     Optional<Accident> findById(int id);
 
-    void update(Accident accident);
-
-    void delete(int id);
+    @Query("delete FROM Accident a where a.id = :id")
+    void deleteById(int id);
 }

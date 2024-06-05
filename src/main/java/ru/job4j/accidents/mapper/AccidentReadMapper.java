@@ -4,10 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.job4j.accidents.dto.AccidentReadDto;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.Rule;
-
-import java.util.Arrays;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 public class AccidentReadMapper implements Mapper<Accident, AccidentReadDto> {

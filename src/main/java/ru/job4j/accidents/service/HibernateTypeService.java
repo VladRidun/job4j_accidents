@@ -7,6 +7,8 @@ import ru.job4j.accidents.repository.AccidentTypeRepository;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @AllArgsConstructor
@@ -17,21 +19,17 @@ public class HibernateTypeService implements AccidentTypeService {
 
     @Override
     public AccidentType add(AccidentType accidentType) {
-        return accidentTypeRepository.add(accidentType);
+        return accidentTypeRepository.save(accidentType);
     }
 
     @Override
     public Collection<AccidentType> findAll() {
-        return accidentTypeRepository.findAll();
-    }
-
-    @Override
-    public Optional<AccidentType> findById(int id) {
-        return accidentTypeRepository.findById(id);
+        return StreamSupport.stream(accidentTypeRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 
     @Override
     public void delete(int id) {
-        accidentTypeRepository.delete(id);
+        accidentTypeRepository.deleteById(id);
     }
 }

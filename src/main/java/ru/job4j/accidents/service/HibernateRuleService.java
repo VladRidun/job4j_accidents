@@ -7,6 +7,8 @@ import ru.job4j.accidents.repository.RuleRepository;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @AllArgsConstructor
@@ -17,12 +19,13 @@ public class HibernateRuleService implements RuleService {
 
     @Override
     public Rule add(Rule rule) {
-        return ruleRepository.add(rule);
+        return ruleRepository.save(rule);
     }
 
     @Override
     public Collection<Rule> findAll() {
-        return ruleRepository.findAll();
+        return StreamSupport.stream(ruleRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -42,6 +45,6 @@ public class HibernateRuleService implements RuleService {
 
     @Override
     public void delete(int id) {
-        ruleRepository.delete(id);
+        ruleRepository.deleteById(id);
     }
 }
