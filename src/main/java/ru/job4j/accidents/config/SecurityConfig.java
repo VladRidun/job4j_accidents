@@ -1,5 +1,7 @@
 package ru.job4j.accidents.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,12 +12,21 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    private final DataSource dataSource;
+
+    @Autowired
+    public SecurityConfig(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     @Bean
     public UserDetailsService userDetailsService() {
         PasswordEncoder passwordEncoder = passwordEncoder();
@@ -30,8 +41,10 @@ public class SecurityConfig {
                 .password(passwordEncoder.encode("123456"))
                 .roles("USER", "ADMIN")
                 .build();
-
-        return new InMemoryUserDetailsManager(user, admin);
+        JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
+        users.createUser(user);
+        users.createUser(admin);
+        return users;
     }
 
     @Bean

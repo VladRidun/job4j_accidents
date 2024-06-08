@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/accidents
+    username: postgres
+    password: Artem2608
+    driver-class-name: org.postgresql.Driver

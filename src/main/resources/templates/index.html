@@ -7,7 +7,6 @@
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <script th:src="@{/js/code.jquery.com_jquery-3.7.0.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
-
     <title>Сервис поиска автонарушителей</title>
 </head>
 <body>
@@ -19,6 +18,9 @@
         <ul>
             <li><a th:href="@{/accidents}">Все правонарушения</a></li>
         </ul>
+        <div>
+            Login as : ${user.username}
+        </div>
         <table class="table">
             <thead>
             <tr>
