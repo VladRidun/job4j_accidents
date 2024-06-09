@@ -6,9 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,21 +28,14 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        PasswordEncoder passwordEncoder = passwordEncoder();
-        UserDetails user = User.builder()
-                .username("user")
-                .password(passwordEncoder.encode("123456"))
-                .roles("USER")
-                .build();
-
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password(passwordEncoder.encode("123456"))
-                .roles("USER", "ADMIN")
-                .build();
         JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-        users.createUser(user);
-        users.createUser(admin);
+        users.setUsersByUsernameQuery("select username, password, enabled "
+                + "from users "
+                + "where username = ?");
+        users.setAuthoritiesByUsernameQuery(
+                " select u.username, a.authority "
+                        + "from authorities as a, users as u "
+                        + "where u.username = ? and u.authority_id = a.id");
         return users;
     }
 
@@ -55,7 +47,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(CsrfConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/login").permitAll().requestMatchers("/**").hasAnyRole("ADMIN", "USER"))
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/login", "/reg").permitAll().requestMatchers("/**").hasAnyRole("ADMIN", "USER"))
                 .formLogin(login -> login.loginPage("/login")
                         .defaultSuccessUrl("/")
                         .failureUrl("/login?error=true")
@@ -64,5 +56,10 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)
                         .permitAll());
         return http.build();
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/css/**", "/js/**", "/images/logo/**");
     }
 }
