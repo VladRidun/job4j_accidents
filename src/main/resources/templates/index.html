@@ -19,7 +19,7 @@
             <li><a th:href="@{/accidents}">Все правонарушения</a></li>
         </ul>
         <div>
-            Login as : ${user.username}
+            Login as : <span th:text="${username}"></span>
         </div>
         <table class="table">
             <thead>

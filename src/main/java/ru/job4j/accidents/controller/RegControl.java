@@ -2,12 +2,15 @@ package ru.job4j.accidents.controller;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.accidents.model.User;
 import ru.job4j.accidents.repository.AuthorityRepository;
 import ru.job4j.accidents.repository.UserRepository;
+
+import java.util.Optional;
 
 @Controller
 public class RegControl {
@@ -23,12 +26,19 @@ public class RegControl {
     }
 
     @PostMapping("/reg")
-    public String regSave(@ModelAttribute User user) {
-        user.setEnabled(true);
-        user.setPassword(encoder.encode(user.getPassword()));
-        user.setAuthority(authorities.findByAuthority("ROLE_USER"));
-        users.save(user);
-        return "redirect:/login";
+    public String regSave(@ModelAttribute User user, Model model) {
+        Optional<User> optionalUser = users.findUserByUsername(user.getUsername());
+        if (optionalUser.isPresent()) {
+            model.addAttribute("error", "Пользователь уже существует");
+            return "errors/404";
+        } else {
+            user.setEnabled(true);
+            user.setPassword(encoder.encode(user.getPassword()));
+            user.setAuthority(authorities.findByAuthority("ROLE_USER"));
+            users.save(user);
+            model.addAttribute("message", "Пользователь зарегистрирован");
+        }
+        return "/success";
     }
 
     @GetMapping("/reg")

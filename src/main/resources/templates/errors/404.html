@@ -21,9 +21,8 @@
     <div class="container">
         <table border="1">
             <h3 class="mt-3">Произошла следующая ошибка:</h3>
-            <p class="text-danger" th:text="${message}"></p>
-            <div class="col-4" align="center"><a class="btn btn-danger w-50" th:href="@{/}">Вернуться на
-                главную</a></div>
+            <p class="text-danger" th:text="${error}"></p>
+            <div class="col-4" align="center"><a class="btn btn-danger w-50" th:href="@{/login}">Зарегистрироваться снова</a></div>
         </table>
     </div>
 </div>

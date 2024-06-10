@@ -13,7 +13,6 @@
 <main class="form-signin w-100 m-auto">
   <form th:action="@{/reg}" method="post">
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-    <!--    <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
     <h1 class="h3 mb-3 fw-normal">Регистрация</h1>
     <div th:if="${not #lists.isEmpty(errorMessage)}" class="form-floating alert alert-danger p-1" role="alert" th:text="${errorMessage}">
     </div>
