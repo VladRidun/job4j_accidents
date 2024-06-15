@@ -2,35 +2,35 @@ package ru.job4j.accidents.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestConstructor;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.job4j.accidents.Main;
-import ru.job4j.accidents.service.AccidentService;
-import ru.job4j.accidents.service.AccidentTypeService;
-import ru.job4j.accidents.service.RuleService;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @SpringBootTest(classes = Main.class)
 @AutoConfigureMockMvc
 @RequiredArgsConstructor
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-class AccidentControllerTestIT {
-
+class LoginControllerTestIT {
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    @WithMockUser
-    void getViewCreateAccidentShouldReturnStatus200() throws Exception {
-        mockMvc.perform(get("/createAccident"))
-                .andDo(print()).andExpect(status().isOk()).andExpect(view().name("createAccident"));
+    void whenLoginShouldReturnStatus200() throws Exception {
+        mockMvc.perform(get("/login")).
+                andDo(print()).andExpect(status().isOk()).andExpect(view().name("login"));
+    }
+
+    @Test
+    void whenLogoutShouldReturnStatus302() throws Exception {
+        mockMvc.perform(get("/logout")).
+                andDo(print()).andExpect(status().is3xxRedirection());
     }
 }
