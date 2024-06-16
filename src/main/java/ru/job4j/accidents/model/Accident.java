@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,8 +32,8 @@ public class Accident {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "accidents_rules",
-            joinColumns = { @JoinColumn(name = "accident_id") },
-            inverseJoinColumns = { @JoinColumn(name = "rule_id") }
+            joinColumns = {@JoinColumn(name = "accident_id")},
+            inverseJoinColumns = {@JoinColumn(name = "rule_id")}
     )
     private Set<Rule> rules = new HashSet<Rule>();
 
@@ -47,5 +48,4 @@ public class Accident {
     public void addRule(Rule rule) {
         this.rules.add(rule);
     }
-
 }
