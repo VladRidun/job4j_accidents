@@ -12,7 +12,7 @@
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <mapping class="ru.job4j.accidents.model.Accident"/>
         <mapping class="ru.job4j.accidents.model.AccidentType" />
         <mapping class="ru.job4j.accidents.model.Rule"/>
