@@ -11,9 +11,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.job4j.accidents.Main;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(classes = Main.class)
 @AutoConfigureMockMvc
@@ -33,6 +33,6 @@ class LoginControllerTest {
     @Test
     void whenLogoutShouldReturnStatus302() throws Exception {
         mockMvc.perform(get("/logout")).
-                andDo(print()).andExpect(status().is3xxRedirection());
+                andDo(print()).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/login?logout=true"));
     }
 }
