@@ -1,11 +1,14 @@
 package ru.job4j.accidents.config;
 
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,25 +21,20 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
-    private final DataSource dataSource;
-
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    public SecurityConfig(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    DataSource ds;
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-        users.setUsersByUsernameQuery("select username, password, enabled "
-                + "from users "
-                + "where username = ?");
-        users.setAuthoritiesByUsernameQuery(
-                " select u.username, a.authority "
-                        + "from authorities as a, users as u "
-                        + "where u.username = ? and u.authority_id = a.id");
-        return users;
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication().dataSource(ds)
+                .usersByUsernameQuery("select username, password, enabled "
+                        + "from users "
+                        + "where username = ?")
+                .authoritiesByUsernameQuery(
+                        " select u.username, a.authority "
+                                + "from authorities as a, users as u "
+                                + "where u.username = ? and u.authority_id = a.id");
     }
 
     @Bean
@@ -44,22 +42,38 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(CsrfConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/login", "/reg").permitAll().requestMatchers("/**").hasAnyRole("ADMIN", "USER"))
-                .formLogin(login -> login.loginPage("/login")
-                        .defaultSuccessUrl("/")
-                        .failureUrl("/login?error=true")
-                        .permitAll()).
-                logout(logout -> logout.logoutSuccessUrl("/login?logout=true")
-                        .invalidateHttpSession(true)
-                        .permitAll());
-        return http.build();
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/login", "/reg")
+                .permitAll()
+                .antMatchers("/**")
+                .hasAnyRole("ADMIN", "USER")
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/")
+                .failureUrl("/login?error=true")
+                .permitAll()
+                .and()
+                .logout()
+                .logoutSuccessUrl("/login?logout=true")
+                .invalidateHttpSession(true)
+                .permitAll()
+                .and()
+                .csrf()
+                .disable();
     }
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/css/**", "/js/**", "/images/logo/**");
+    public DataSource ds(String driver,
+                         String url,
+                         String username,
+                         String password) {
+        BasicDataSource ds = new BasicDataSource();
+        ds.setDriverClassName(driver);
+        ds.setUrl(url);
+        ds.setUsername(username);
+        ds.setPassword(password);
+        return ds;
     }
 }
