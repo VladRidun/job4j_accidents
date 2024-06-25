@@ -10,7 +10,6 @@ import ru.job4j.accidents.repository.AccidentRepository;
 import ru.job4j.accidents.repository.AccidentTypeRepository;
 import ru.job4j.accidents.repository.RuleRepository;
 
-
 import java.util.*;
 import java.util.stream.Collectors;
 

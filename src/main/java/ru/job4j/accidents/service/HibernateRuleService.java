@@ -12,7 +12,6 @@ import java.util.stream.StreamSupport;
 
 @Service
 @AllArgsConstructor
-
 public class HibernateRuleService implements RuleService {
 
     private final RuleRepository ruleRepository;

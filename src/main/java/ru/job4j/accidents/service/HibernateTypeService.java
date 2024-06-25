@@ -10,7 +10,6 @@ import java.util.stream.StreamSupport;
 
 @Service
 @AllArgsConstructor
-
 public class HibernateTypeService implements AccidentTypeService {
 
     private final AccidentTypeRepository accidentTypeRepository;
