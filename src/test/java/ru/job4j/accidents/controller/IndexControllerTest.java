@@ -15,6 +15,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ru.job4j.accidents.Main;
 import ru.job4j.accidents.service.AccidentService;
 
+import java.util.List;
+
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -42,5 +45,15 @@ class IndexControllerTest {
     public void getIndexShouldReturnStatus200() throws Exception {
         mockMvc.perform(get("/index/")).
                 andDo(print()).andExpect(status().isOk()).andExpect(view().name("index"));
+    }
+
+    @Test
+    @WithMockUser
+    void whenGetAllThenAccidentsList() throws Exception {
+        when(accidentService.findAll()).thenReturn(List.of());
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("index"))
+                .andExpect(model().attributeExists("accidents"));
     }
 }

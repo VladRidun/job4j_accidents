@@ -1,7 +1,6 @@
 package ru.job4j.accidents.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +44,7 @@ public class AccidentController {
     }
 
     @PostMapping("/updateAccident")
-    public String update(@ModelAttribute Accident accident, Model model, @RequestParam List<Integer> rIds) {
+    public String update(@ModelAttribute Accident accident, @RequestParam List<Integer> rIds) {
         accidentService.update(accident, rIds);
         return "redirect:/";
     }
